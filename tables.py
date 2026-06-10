@@ -8,10 +8,12 @@ class TaskModel(Base):
     title = Column(String)
     description = Column(String)
     status = Column(Boolean, default=False)
+    user_id = Column(Integer)
+
 
 class UserModel(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, nullable = False)
-    password = Column(String ,nullable = False)
+    username = Column(String, nullable=False, unique=True)
+    password = Column(String, nullable=False)

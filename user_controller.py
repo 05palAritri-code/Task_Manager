@@ -1,12 +1,13 @@
 from sqlalchemy.orm import Session
 from user_dtos import UserSchema,UserLoginSchema
 from tables import  UserModel
-from fastapi import HTTPException,status,Request
+from fastapi import HTTPException,status,Request,Depends
 from pwdlib import PasswordHash
 import jwt
 from utils import settings
 from utils.settings import settings
 from datetime import datetime , timedelta
+from utils.db import get_db
 
 password_hash = PasswordHash.recommended()
 
@@ -25,13 +26,21 @@ def register(body: UserSchema, db: Session):
             status_code=400,
             detail="User already exists"
         )
+    
     password_hash = get_password_hash(body.password)
     new_user = UserModel(username=body.username, password=password_hash)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
 
-    return new_user
+    return {
+    "success": True,
+    "message": "User registered successfully",
+    "data": {
+        "id": new_user.id,
+        "username": new_user.username
+    }
+}
 
 def login_user(body : UserLoginSchema , db: Session):
     user = db.query(UserModel).filter(UserModel.username == body.username).first()
@@ -50,29 +59,52 @@ def login_user(body : UserLoginSchema , db: Session):
     exp_time = datetime.now() + timedelta(minutes=settings.EXP_TIME)
     token = jwt.encode({"id":user.id , "exp":exp_time},settings.SECRET_KEY , settings.ALGORITHM)
 
-    return {"token": token}
+    return {
+    "success": True,
+    "message": "Login successful",
+    "data": {
+        "token": token,
+        "username": user.username
+    }
+}
 
-def is_authenticated(request:Request ,db:Session):
+def is_authenticated(request: Request, db: Session):
     token = request.headers.get("authorization")
+
     if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User is Unauthenticated"
         )
-    token = token.split(" ")[1] 
-    data = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-    user_id = data.get("id")
-    exp = data.get("exp")
-    current_time = datetime.now().timestamp()
-    if current_time > exp:
+
+    token = token.split(" ")[1]
+
+    try:
+        data = jwt.decode(
+            token,
+            settings.SECRET_KEY,
+            algorithms=[settings.ALGORITHM]
+        )
+    except jwt.ExpiredSignatureError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="You are Logged Out"
+            detail="Token expired"
         )
+    except jwt.InvalidTokenError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token"
+        )
+
+    user_id = data.get("id")
+
     user = db.query(UserModel).filter(UserModel.id == user_id).first()
+
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User Unautherized"
+            detail="User not found"
         )
+
     return user
+
