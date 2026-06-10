@@ -5,11 +5,22 @@ A scalable REST API built using FastAPI, PostgreSQL, SQLAlchemy, JWT Authenticat
 ## Features
 
 - User Registration
-- User Login
-- JWT Authentication
-- Role-Based Access (Admin/User)
-- Task CRUD Operations
-- API Versioning (v1)
-- Swagger API Documentation
-- Input Validation using Pydantic
-- Password Hashing using Argon2 (pwdlib)
+- User Login (JWT Authentication)
+- Create Task
+- Get All Tasks
+- Get Task By ID
+- Update Task
+- Delete Task
+- User-specific Task Access
+Backend:
+- FastAPI
+- SQLAlchemy
+- PostgreSQL
+- JWT
+
+Frontend:
+- React
+- Streamlit
+
+Tools:
+- Swagger UI 
