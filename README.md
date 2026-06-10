@@ -20,7 +20,7 @@ Backend:
 
 Frontend:
 - React
-- Streamlit
+- Streamlit - full working
 
 Tools:
 - Swagger UI 
