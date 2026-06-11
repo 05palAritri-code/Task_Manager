@@ -1,10 +1,17 @@
 import streamlit as st
 import requests
+import os
+from dotenv import load_dotenv
 
-BASE_URL = "http://127.0.0.1:8000/api/v1"
+load_dotenv()
 
-st.set_page_config(page_title="Task Manager")
+API_URL = os.getenv("API_URL")
 
+st.title("Task Manager")
+
+if st.button("Get Tasks"):
+    res = requests.get(f"{API_URL}/tasks")
+    st.write(res.json())
 # --------------------------------------------------
 # SESSION STATE
 # --------------------------------------------------
