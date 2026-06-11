@@ -7,7 +7,6 @@ load_dotenv()
 
 API_URL = os.getenv("API_URL")
 
-st.title("Task Manager")
 
 # if st.button("Get Tasks"):
 #     res = requests.get(f"{API_URL}/tasks")
