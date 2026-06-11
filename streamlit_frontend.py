@@ -9,9 +9,9 @@ API_URL = os.getenv("API_URL")
 
 st.title("Task Manager")
 
-if st.button("Get Tasks"):
-    res = requests.get(f"{API_URL}/tasks")
-    st.write(res.json())
+# if st.button("Get Tasks"):
+#     res = requests.get(f"{API_URL}/tasks")
+#     st.write(res.json())
 # --------------------------------------------------
 # SESSION STATE
 # --------------------------------------------------
@@ -44,9 +44,9 @@ if not st.session_state.token:
     if st.button(auth_type):
 
         endpoint = (
-            f"{BASE_URL}/users/login"
+            f"{API_URL}/users/login"
             if auth_type == "Login"
-            else f"{BASE_URL}/users/register"
+            else f"{API_URL}/users/register"
         )
 
         payload = {
@@ -113,7 +113,7 @@ else:
         }
 
         response = requests.post(
-            f"{BASE_URL}/tasks",
+            f"{API_URL}/tasks",
             json=payload,
             headers=headers
         )
@@ -128,7 +128,7 @@ else:
     # ---------------- GET TASKS ----------------
 
     response = requests.get(
-        f"{BASE_URL}/tasks",
+        f"{API_URL}/tasks",
         headers=headers
     )
 
@@ -164,7 +164,7 @@ else:
                     ):
 
                         requests.put(
-                            f"{BASE_URL}/tasks/{task['id']}",
+                            f"{API_URL}/tasks/{task['id']}",
                             json={
                                 "title": task["title"],
                                 "description": task["description"],
@@ -183,7 +183,7 @@ else:
                     ):
 
                         requests.delete(
-                            f"{BASE_URL}/tasks/{task['id']}",
+                            f"{API_URL}/tasks/{task['id']}",
                             headers=headers
                         )
 
