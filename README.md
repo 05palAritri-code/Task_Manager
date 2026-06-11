@@ -2,6 +2,8 @@
 
 A scalable REST API built using FastAPI, PostgreSQL, SQLAlchemy, JWT Authentication, and Role-Based Access Control.
 
+Docs :  https://task-manager-d6jr.onrender.com/docs
+
 ## Features
 
 - User Registration
@@ -24,4 +26,4 @@ Frontend:
 
 Tools:
 - Swagger UI 
-https://task-manager-d6jr.onrender.com/docs
+
