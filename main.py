@@ -15,14 +15,24 @@ app.include_router(user_routes)
 @app.get("/")
 def home():
     return {
-        "message": "Task Manager API is running 🚀",
+        "message": "Task Manager API is running ",
         "docs": "/docs"
     }
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["^"],
+    allow_origins=[
+        "http://localhost:8501",  
+        "http://localhost:3000",   
+        "https://your-streamlit-app.streamlit.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["^"],
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
