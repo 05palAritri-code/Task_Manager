@@ -2,7 +2,9 @@
 
 A scalable REST API built using FastAPI, PostgreSQL, SQLAlchemy, JWT Authentication, and Role-Based Access Control.
 
-Docs :  https://task-manager-d6jr.onrender.com/docs
+- Frontend: https://taskmanagerapp.streamlit.app/
+- Backend API: https://task-manager-d6jr.onrender.com
+- Docs :  https://task-manager-d6jr.onrender.com/docs
 
 ## Features
 
@@ -21,9 +23,4 @@ Backend:
 - JWT
 
 Frontend:
-- React
 - Streamlit - full working
-
-Tools:
-- Swagger UI 
-
