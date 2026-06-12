@@ -5,9 +5,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_URL = os.getenv("API_URL")
-
-
+api_url = os.getenv("API_URL")
+# st.write("API_URL =", api_url)
 # if st.button("Get Tasks"):
 #     res = requests.get(f"{API_URL}/tasks")
 #     st.write(res.json())
@@ -43,9 +42,9 @@ if not st.session_state.token:
     if st.button(auth_type):
 
         endpoint = (
-            f"{API_URL}/users/login"
+            f"{api_url}/users/login"
             if auth_type == "Login"
-            else f"{API_URL}/users/register"
+            else f"{api_url}/users/register"
         )
 
         payload = {
@@ -57,7 +56,9 @@ if not st.session_state.token:
             endpoint,
             json=payload
         )
-        
+        # st.write("Endpoint:", endpoint)
+        # st.write("Status Code:", response.status_code)
+        # st.write("Response Text:", response.text)
         try:
             data = response.json()
         except Exception:
@@ -89,7 +90,7 @@ else:
     st.title("Task Dashboard")
 
     st.write(
-        f"Welcome **{st.session_state.username}** 👋"
+        f"Welcome **{st.session_state.username}** "
     )
 
     headers = {
@@ -112,7 +113,7 @@ else:
         }
 
         response = requests.post(
-            f"{API_URL}/tasks",
+            f"{api_url}/tasks",
             json=payload,
             headers=headers
         )
@@ -127,7 +128,7 @@ else:
     # ---------------- GET TASKS ----------------
 
     response = requests.get(
-        f"{API_URL}/tasks",
+        f"{api_url}/tasks",
         headers=headers
     )
 
@@ -163,7 +164,7 @@ else:
                     ):
 
                         requests.put(
-                            f"{API_URL}/tasks/{task['id']}",
+                            f"{api_url}/tasks/{task['id']}",
                             json={
                                 "title": task["title"],
                                 "description": task["description"],
@@ -182,7 +183,7 @@ else:
                     ):
 
                         requests.delete(
-                            f"{API_URL}/tasks/{task['id']}",
+                            f"{api_url}/tasks/{task['id']}",
                             headers=headers
                         )
 

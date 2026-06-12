@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends , status ,Request
 from sqlalchemy.orm import Session
-from user_dtos import UserResponseSchema, UserSchema , UserLoginSchema
+from user_dtos import  UserSchema , UserLoginSchema
 import user_controller
 from user_dtos import UserSchema
 from utils.db import get_db
