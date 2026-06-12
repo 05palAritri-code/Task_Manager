@@ -106,6 +106,18 @@ else:
 
     if st.button("Add Task"):
 
+        if not title.strip():
+            st.warning("Please enter a task title")
+            st.stop()
+
+        if len(title.strip()) < 3:
+            st.warning("Title must be at least 3 characters")
+            st.stop()
+
+        if len(description.strip()) < 5:
+            st.warning("Description must be at least 5 characters")
+            st.stop()
+
         payload = {
             "title": title,
             "description": description,
@@ -118,16 +130,30 @@ else:
             headers=headers
         )
 
-        if response.status_code == 201:
-            st.success("Task created")
-            st.rerun()
+    # if st.button("Add Task"):
 
-        else:
-            try:
-                message = response.json().get("detail")
-                st.error(message)
-            except Exception:
-                st.error("Unexpected server error")
+    #     payload = {
+    #         "title": title,
+    #         "description": description,
+    #         "status": False
+    #     }
+
+    #     response = requests.post(
+    #         f"{api_url}/tasks",
+    #         json=payload,
+    #         headers=headers
+    #     )
+
+    #     if response.status_code == 201:
+    #         st.success("Task created")
+    #         st.rerun()
+
+    #     else:
+    #         try:
+    #             message = response.json().get("detail")
+    #             st.error(message)
+    #         except Exception:
+    #             st.error("Unexpected server error")
 
     # ---------------- GET TASKS ----------------
 
