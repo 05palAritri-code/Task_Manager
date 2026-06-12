@@ -123,7 +123,11 @@ else:
             st.rerun()
 
         else:
-            st.error(response.json())
+            try:
+                message = response.json().get("detail")
+                st.error(message)
+            except Exception:
+                st.error("Unexpected server error")
 
     # ---------------- GET TASKS ----------------
 
